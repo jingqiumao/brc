@@ -44,9 +44,9 @@
       INTEGER, PARAMETER :: JVN_ = 121     ! Max number of J-values
 
 #if defined( UCX )
-      INTEGER, PARAMETER :: AN_  = 37      ! Including PSCs
+      INTEGER, PARAMETER :: AN_  = 47      ! Including PSCs
 #else
-      INTEGER, PARAMETER :: AN_  = 35      ! # of separate aerosols per layer
+      INTEGER, PARAMETER :: AN_  = 45      ! # of separate aerosols per layer
 #endif
 
       ! Variables used to interface GEOS-Chem and Fast-JX at runtime
@@ -248,12 +248,12 @@
       INTEGER, PARAMETER :: NWVAART = NWVAA-NWVAA0 !number of RRTMG wvs
       INTEGER, PARAMETER :: NRAA    = 7      !number of aer sizes in LUT
 #if defined( UCX )
-      INTEGER, PARAMETER :: NSPAA   = 8      !number of species in LUT
+      INTEGER, PARAMETER :: NSPAA   = 10      !number of species in LUT
       INTEGER, PARAMETER :: NASPECRAD = 16   !aerosol species in RT
       INTEGER, PARAMETER :: NSPECRAD  = 18   !aerosol+gas species in RT
       INTEGER, PARAMETER :: NSPECRADMENU = 11!number of choices for RT flux
 #else
-      INTEGER, PARAMETER :: NSPAA     = 6    !number of species in LUT
+      INTEGER, PARAMETER :: NSPAA     = 8    !number of species in LUT
       INTEGER, PARAMETER :: NASPECRAD = 14   !aerosol species in RT
       INTEGER, PARAMETER :: NSPECRAD  = 16   !aerosol+gas species in RT
       INTEGER, PARAMETER :: NSPECRADMENU = 10!number of choices for RT flux
