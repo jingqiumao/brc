@@ -76,6 +76,15 @@
       REAL(fp), ALLOCATABLE, PUBLIC :: SOAG(:,:,:)
       REAL(fp), ALLOCATABLE, PUBLIC :: SOAM(:,:,:)
       REAL(fp), ALLOCATABLE, PUBLIC :: PM25(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: bfOCPI(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: bfOCPO(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: bbOCPI(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: bbOCPO(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: bfOCPI1(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: bfOCPO1(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: bbOCPI1(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: bbOCPO1(:,:,:)
+
 !
 ! !DEFINED PARAMETERS:
 !
@@ -142,7 +151,9 @@
       ! Add tracer ID flags as module variables (bmy, 6/16/16)
       INTEGER :: id_BCPI,  id_BCPO,  id_DST1,  id_DST2
       INTEGER :: id_DST3,  id_DST4,  id_NH4,   id_NIT  
-      INTEGER :: id_OCPO,  id_OCPI,  id_SALA,  id_SALC 
+      INTEGER :: id_OCPO,  id_OCPI,  id_SALA,  id_SALC
+      INTEGER :: id_bfOCPO,  id_bfOCPI,  id_bfOCPO1,  id_bfOCPI1
+      INTEGER :: id_bbOCPO,  id_bbOCPI,  id_bbOCPO1,  id_bbOCPI1
       INTEGER :: id_SO4,   id_SOAG,  id_SOAM,  id_SO4s
       INTEGER :: id_NITs,  id_POA1,  id_POA2,  id_OPOA1
       INTEGER :: id_OPOA2, id_TSOA1, id_TSOA2, id_TSOA3 
@@ -539,6 +550,8 @@
             IF ( IS_OCPI ) THEN
                OCPI(I,J,L) = Spc(I,J,L,id_OCPI)
      &                       * OCFOPOA / AIRVOL(I,J,L)
+
+
             ENDIF
 
             IF ( LSOA ) THEN
