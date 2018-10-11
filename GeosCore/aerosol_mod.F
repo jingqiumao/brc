@@ -1571,7 +1571,7 @@
      &                         bfOCPO(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (SCALESSA*SSAA(IWV,1,N) )
-            brabs = brscat + 0.75d0 * BXHEIGHT(I,J,L) *
+            brscat = brscat + 0.75d0 * BXHEIGHT(I,J,L) *
      &                         bfOCPO1(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (SCALESSA*SSAA(IWV,1,N) )
@@ -1610,7 +1610,7 @@
      &                         bbOCPO(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (SCALESSA*SSAA(IWV,1,N) )
-            brabs = brscat + 0.75d0 * BXHEIGHT(I,J,L) *
+            brscat = brscat + 0.75d0 * BXHEIGHT(I,J,L) *
      &                         bbOCPO1(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (SCALESSA*SSAA(IWV,1,N) )
