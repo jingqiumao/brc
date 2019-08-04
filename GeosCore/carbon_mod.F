@@ -646,34 +646,36 @@
       ENDIF
 
       ! Chemistry for brown carbon photobleaching
-      IF ( id_bbOCPI1 > 0 ) THEN
-         CALL CHEM_BRC( am_I_Root, Input_Opt, State_Chm, State_Met, 
-     &            Spc(:,:,:,id_bbOCPI), Spc(:,:,:,id_bbOCPI1), RC)
-         IF ( prtDebug ) THEN
-            CALL DEBUG_MSG( '### CHEMCARBON: a CHEM_BRC bb OCPI' )
-         ENDIF
-      ENDIF
-      IF ( id_bfOCPI1 > 0 ) THEN
-         CALL CHEM_BRC( am_I_Root, Input_Opt, State_Chm, State_Met,
-     &            Spc(:,:,:,id_bfOCPI), Spc(:,:,:,id_bfOCPI1), RC)
-         IF ( prtDebug ) THEN
-            CALL DEBUG_MSG( '### CHEMCARBON: a CHEM_BRC bf OCPI' )
-         ENDIF
-      ENDIF
-      IF ( id_bbOCPO1 > 0 ) THEN
-         CALL CHEM_BRC( am_I_Root, Input_Opt, State_Chm, State_Met,
-     &            Spc(:,:,:,id_bbOCPO), Spc(:,:,:,id_bbOCPO1), RC)
-         IF ( prtDebug ) THEN
-            CALL DEBUG_MSG( '### CHEMCARBON: a CHEM_BRC bb OCPO' )
-         ENDIF
-      ENDIF
-      IF ( id_bfOCPO1 > 0 ) THEN
-         CALL CHEM_BRC( am_I_Root, Input_Opt, State_Chm, State_Met,
-     &            Spc(:,:,:,id_bfOCPO), Spc(:,:,:,id_bfOCPO1), RC)
-         IF ( prtDebug ) THEN
-            CALL DEBUG_MSG( '### CHEMCARBON: a CHEM_BRC bf OCPO' )
-         ENDIF
-      ENDIF
+! commenting this out to test the photobleaching effect. (jmao,
+! 07/15/2019)
+!      IF ( id_bbOCPI1 > 0 ) THEN
+!         CALL CHEM_BRC( am_I_Root, Input_Opt, State_Chm, State_Met, 
+!     &            Spc(:,:,:,id_bbOCPI), Spc(:,:,:,id_bbOCPI1), RC)
+!         IF ( prtDebug ) THEN
+!            CALL DEBUG_MSG( '### CHEMCARBON: a CHEM_BRC bb OCPI' )
+!         ENDIF
+!      ENDIF
+!      IF ( id_bfOCPI1 > 0 ) THEN
+!         CALL CHEM_BRC( am_I_Root, Input_Opt, State_Chm, State_Met,
+!     &            Spc(:,:,:,id_bfOCPI), Spc(:,:,:,id_bfOCPI1), RC)
+!         IF ( prtDebug ) THEN
+!            CALL DEBUG_MSG( '### CHEMCARBON: a CHEM_BRC bf OCPI' )
+!         ENDIF
+!      ENDIF
+!      IF ( id_bbOCPO1 > 0 ) THEN
+!         CALL CHEM_BRC( am_I_Root, Input_Opt, State_Chm, State_Met,
+!     &            Spc(:,:,:,id_bbOCPO), Spc(:,:,:,id_bbOCPO1), RC)
+!         IF ( prtDebug ) THEN
+!            CALL DEBUG_MSG( '### CHEMCARBON: a CHEM_BRC bb OCPO' )
+!         ENDIF
+!      ENDIF
+!      IF ( id_bfOCPO1 > 0 ) THEN
+!         CALL CHEM_BRC( am_I_Root, Input_Opt, State_Chm, State_Met,
+!     &            Spc(:,:,:,id_bfOCPO), Spc(:,:,:,id_bfOCPO1), RC)
+!         IF ( prtDebug ) THEN
+!            CALL DEBUG_MSG( '### CHEMCARBON: a CHEM_BRC bf OCPO' )
+!         ENDIF
+!      ENDIF
 
 
 
