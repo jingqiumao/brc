@@ -84,6 +84,7 @@
       REAL(fp), ALLOCATABLE, PUBLIC :: bfOCPO1(:,:,:)
       REAL(fp), ALLOCATABLE, PUBLIC :: bbOCPI1(:,:,:)
       REAL(fp), ALLOCATABLE, PUBLIC :: bbOCPO1(:,:,:)
+      REAL(fp), ALLOCATABLE, PUBLIC :: BRABSD(:,:,:,:)
 
 !
 ! !DEFINED PARAMETERS:
@@ -1086,7 +1087,8 @@
       ! Temporary varaibles
       REAL(fp)            :: RAER, SADSTRAT, RHOSTRAT, XSASTRAT
       INTEGER             :: ISTRAT
-      REAL(fp)            :: brabs, brscat
+      REAL(fp)            :: brabs, brscat !uniteless
+      REAL(fp)            :: brabs_dry !uniteless
 
 
       ! Index to aerosol types in FJX_spec.dat
@@ -1440,7 +1442,7 @@
 !$OMP+PRIVATE( I,        J,       L,        IRH , brabs, brscat )
 !$OMP+PRIVATE( AW0,      QW0,     SSW0,     ASYW0,    REFF      )
 !$OMP+PRIVATE( SCALEA,   SCALEQ,  SCALESSA, SCALEASY, FRAC      )
-!$OMP+PRIVATE( SCALER,   SCALEOD, SCALEVOL, DRYAREA             )
+!$OMP+PRIVATE( SCALER,   SCALEOD, SCALEVOL, DRYAREA, brabs_dry  )
 !$OMP+PRIVATE( TK,       CONSEXP, VPRESH2O, RELHUM              )
 #if defined( RRTMG )
 !$OMP+PRIVATE( IR                                               )
@@ -1559,6 +1561,23 @@
      &                         (1.0d0 - SCALESSA*SSAA(IWV,1,N) )
 
 
+            brabs_dry = 0.75d0 * bfOCPI(I,J,L) * QQAA(IWV,1,N) /
+     &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
+     &                         (1.0d0 - SSAA(IWV,1,N) ) 
+            brabs_dry = brabs_dry + 0.75d0 * 0.25d0 *
+     &                         bfOCPI1(I,J,L) * QQAA(IWV,1,N) /
+     &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
+     &                         (1.0d0 - SSAA(IWV,1,N) )
+            brabs_dry = brabs_dry + 0.75d0 *
+     &                         bfOCPO(I,J,L) * QQAA(IWV,1,N)  /
+     &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
+     &                         (1.0d0 - SSAA(IWV,1,N) )
+            brabs_dry = brabs_dry + 0.75d0 * 0.25d0 *
+     &                         bfOCPO1(I,J,L) * QQAA(IWV,1,N)  /
+     &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
+     &                         (1.0d0 - SSAA(IWV,1,N) )
+
+
             brscat = SCALEOD*BXHEIGHT(I,J,L)*0.75d0
      &                         * bfOCPI(I,J,L) * QQAA(IWV,1,N) /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
@@ -1616,6 +1635,25 @@
      &                         (SCALESSA*SSAA(IWV,1,N) )
 
             ODAER(I,J,L,IWV,N) = brabs + brscat
+
+            brabs_dry = brabs_dry + 0.75d0 * 
+     &                         bbOCPI(I,J,L) * QQAA(IWV,1,N) /
+     &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
+     &                         (1.0d0 - SSAA(IWV,1,N) )
+            brabs_dry = brabs_dry + 0.75d0 * 0.25d0 *
+     &                         bbOCPI1(I,J,L) * QQAA(IWV,1,N) /
+     &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
+     &                         (1.0d0 - SSAA(IWV,1,N) )
+            brabs_dry = brabs_dry + 0.75d0 *
+     &                         bbOCPO(I,J,L) * QQAA(IWV,1,N)  /
+     &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
+     &                         (1.0d0 - SSAA(IWV,1,N) )
+            brabs_dry = brabs_dry + 0.75d0 * 0.25d0 *
+     &                         bbOCPO1(I,J,L) * QQAA(IWV,1,N)  /
+     &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
+     &                         (1.0d0 - SSAA(IWV,1,N) )
+            BRABSD(I,J,L,IWV) = brabs_dry 
+
             ELSE
 
             !calculate optics for hyrdophillic aerosol here
@@ -1945,6 +1983,24 @@
                DO J = 1, JJPAR
                DO I = 1, IIPAR
 
+                IF (N .EQ. 3 .and. IOUT .EQ. 12) THEN
+
+                  IF ( .not. LINTERP ) THEN
+                  ! Dry absorption
+                     AD21(I,J,L,IOUT) = AD21(I,J,L,IOUT) +
+     &                                  BRABSD(I,J,L,IWVSELECT(1,W))
+                  ELSE
+                     IF ((BRABSD(I,J,L,IWVSELECT(2,W)).GT.0).AND.
+     &                   (BRABSD(I,J,L,IWVSELECT(1,W)).GT.0)) THEN
+                        AD21(I,J,L,IOUT) = AD21(I,J,L,IOUT) +
+     &                   BRABSD(I,J,L,IWVSELECT(2,W))*ACOEF_WV(W)**
+     &                   (BCOEF_WV(W)*LOG(BRABSD(I,J,L,IWVSELECT(1,W))/
+     &                   BRABSD(I,J,L,IWVSELECT(2,W))))
+                     ENDIF
+                  ENDIF
+                
+                ELSE
+
                   ! Optical Depths
                   IF ( .not. LINTERP ) THEN
                      AD21(I,J,L,IOUT) = AD21(I,J,L,IOUT) +
@@ -1963,6 +2019,8 @@
                      ENDIF
                   ENDIF
 
+                ENDIF
+ 
                ENDDO
                ENDDO
                ENDDO
@@ -2252,6 +2310,10 @@
       IF ( AS /= 0 ) CALL ALLOC_ERR( 'bbOCPO1' )
       bbOCPO1 = 0d0
 
+      ALLOCATE( BRABSD( IIPAR, JJPAR, LLPAR, 33 ), STAT=AS )
+      IF ( AS /= 0 ) CALL ALLOC_ERR( 'BRABSD' )
+      BRABSD = 0d0
+
 
       ! Mass of hydrophobic aerosol from Mian Chin
       ALLOCATE( DAERSL(IIPAR,JJPAR,LLPAR,2), STAT=AS)       
@@ -2320,7 +2382,7 @@
       IF ( ALLOCATED( bbOCPI1     ) ) DEALLOCATE( bbOCPI1     )
       IF ( ALLOCATED( bbOCPO      ) ) DEALLOCATE( bbOCPO      )
       IF ( ALLOCATED( bbOCPO1     ) ) DEALLOCATE( bbOCPO1     )
-
+      IF ( ALLOCATED( BRABSD      ) ) DEALLOCATE( BRABSD      )
 
       END SUBROUTINE CLEANUP_AEROSOL
 !EOC
