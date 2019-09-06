@@ -1561,18 +1561,19 @@
      &                         (1.0d0 - SCALESSA*SSAA(IWV,1,N) )
 
 
-            brabs_dry = 0.75d0 * bfOCPI(I,J,L) * QQAA(IWV,1,N) /
+            brabs_dry = BXHEIGHT(I,J,L)*0.75d0 
+     &                         * bfOCPI(I,J,L) * QQAA(IWV,1,N) /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) ) 
-            brabs_dry = brabs_dry + 0.75d0 * 0.25d0 *
+            brabs_dry = brabs_dry + BXHEIGHT(I,J,L)*0.75d0 * 0.25d0 *
      &                         bfOCPI1(I,J,L) * QQAA(IWV,1,N) /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
-            brabs_dry = brabs_dry + 0.75d0 *
+            brabs_dry = brabs_dry + 0.75d0 *BXHEIGHT(I,J,L)*
      &                         bfOCPO(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
-            brabs_dry = brabs_dry + 0.75d0 * 0.25d0 *
+            brabs_dry = brabs_dry + 0.75d0 * BXHEIGHT(I,J,L)*0.25d0 *
      &                         bfOCPO1(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
@@ -1636,19 +1637,19 @@
 
             ODAER(I,J,L,IWV,N) = brabs + brscat
 
-            brabs_dry = brabs_dry + 0.75d0 * 
+            brabs_dry = brabs_dry + BXHEIGHT(I,J,L)*0.75d0 * 
      &                         bbOCPI(I,J,L) * QQAA(IWV,1,N) /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
-            brabs_dry = brabs_dry + 0.75d0 * 0.25d0 *
+            brabs_dry = brabs_dry + BXHEIGHT(I,J,L)*0.75d0 * 0.25d0 *
      &                         bbOCPI1(I,J,L) * QQAA(IWV,1,N) /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
-            brabs_dry = brabs_dry + 0.75d0 *
+            brabs_dry = brabs_dry + BXHEIGHT(I,J,L)*0.75d0 *
      &                         bbOCPO(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
-            brabs_dry = brabs_dry + 0.75d0 * 0.25d0 *
+            brabs_dry = brabs_dry + BXHEIGHT(I,J,L)*0.75d0 * 0.25d0 *
      &                         bbOCPO1(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
@@ -1983,7 +1984,7 @@
                DO J = 1, JJPAR
                DO I = 1, IIPAR
 
-                IF (N .EQ. 3 .and. IOUT .EQ. 12) THEN
+                IF ((N .EQ. 3) .and. (IOUT .EQ. 12)) THEN
 
                   IF ( .not. LINTERP ) THEN
                   ! Dry absorption
