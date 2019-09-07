@@ -1637,7 +1637,7 @@
 
             ODAER(I,J,L,IWV,N) = brabs + brscat
 
-            brabs_dry = brabs_dry + BXHEIGHT(I,J,L)*0.75d0 * 
+            brabs_dry = BXHEIGHT(I,J,L)*0.75d0 * 
      &                         bbOCPI(I,J,L) * QQAA(IWV,1,N) /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
