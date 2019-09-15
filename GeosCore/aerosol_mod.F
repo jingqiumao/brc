@@ -1597,6 +1597,7 @@
      &                         (SCALESSA*SSAA(IWV,1,N) )
 
             ODAER(I,J,L,IWV,N) = brabs + brscat
+            BRABSD(I,J,L,IWV) = brabs_dry
 
             ELSEIF (N.EQ.7) THEN
             !bb BrC, assuming fully aged BrC contributing 25%
@@ -1653,7 +1654,7 @@
      &                         bbOCPO1(I,J,L) * QQAA(IWV,1,N)  /
      &                         ( MSDENS(N) * REAA(1,N) * 1.0D-6 ) *
      &                         (1.0d0 - SSAA(IWV,1,N) )
-            BRABSD(I,J,L,IWV) = brabs_dry 
+            BRABSD(I,J,L,IWV) = BRABSD(I,J,L,IWV) + brabs_dry 
 
             ELSE
 
@@ -2311,7 +2312,7 @@
       IF ( AS /= 0 ) CALL ALLOC_ERR( 'bbOCPO1' )
       bbOCPO1 = 0d0
 
-      ALLOCATE( BRABSD( IIPAR, JJPAR, LLPAR, 33 ), STAT=AS )
+      ALLOCATE( BRABSD( IIPAR, JJPAR, LLPAR, 41 ), STAT=AS )
       IF ( AS /= 0 ) CALL ALLOC_ERR( 'BRABSD' )
       BRABSD = 0d0
 
