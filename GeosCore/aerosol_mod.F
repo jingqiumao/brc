@@ -1985,7 +1985,7 @@
                DO J = 1, JJPAR
                DO I = 1, IIPAR
 
-                IF ((N .EQ. 3) .and. (IOUT .EQ. 12)) THEN
+                IF (N .EQ. 3)  THEN
 
                   IF ( .not. LINTERP ) THEN
                   ! Dry absorption
